@@ -36,7 +36,7 @@ function TabNav({
 	onSelect: (id: string) => void;
 }) {
 	return (
-		<nav className="flex items-center gap-1 border-b border-border px-6 overflow-x-auto no-scrollbar">
+		<nav className="flex items-center gap-1 border-b border-border mx-6 overflow-x-auto no-scrollbar">
 			{tabs.map((tab) => {
 				const isActive = tab.id === activeId;
 				return (
@@ -86,7 +86,7 @@ function LinksPanel({ links }: { links: NonNullable<Tab["links"]> }) {
 	return (
 		<div className={[
 			"grid gap-3 w-full mx-auto",
-			links.length > 2 ? "grid-cols-2 max-w-250" : "grid-cols-1 max-w-125",
+			links.length > 3 ? "grid-cols-2 max-w-250" : "grid-cols-1 max-w-125",
 		].join(" ")}>
 			{links.map((link, index) => (
 				<a
@@ -183,8 +183,8 @@ export default function ProjectCard({ project }: { project: Project }) {
 			style={{ minHeight: "clamp(220px, 28vw, 380px)" }}>
 
 			{/* ── Photo (hidden on mobile) ── */}
-			<div className="hidden md:block shrink-0 relative border-r border-border"
-				style={{ width: "clamp(180px, 18vw, 280px)" }}>
+			<div className="hidden md:block shrink-0 relative border-r border-border aspect-3/4"
+				style={{ minWidth: "18vw" }}>
 				<img
 					src={project.photo}
 					alt={project.title}
