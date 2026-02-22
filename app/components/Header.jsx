@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 
 const CONFIG = {
 	name: "Clayton Wiley",
@@ -52,6 +52,10 @@ const maskTitle = "radial-gradient(ellipse 72% 150% at 50% 50%, black 50%, trans
 // ─── Main Component ───────────────────────────────────────────────────────────
 
 export default function Header() {
+
+	const { scrollY } = useScroll();
+	const y = useTransform(scrollY, [0, 500], [0, -250]);
+
 	return (
 		<>
 			<TitleClipDef />
@@ -65,10 +69,10 @@ export default function Header() {
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400&display=swap');
       `}</style>
 
-			<header className="relative w-full overflow-hidden flex items-stretch"
+			<motion.header className="w-full overflow-hidden flex items-stretch bg-background"
 				style={{
+					y,
 					height: "clamp(260px, 36vw, 520px)",
-					background: "#0a0a0f",
 				}}
 			>
 				{/* ── Left photo ── */}
@@ -131,11 +135,11 @@ export default function Header() {
 
 					{/* Name */}
 					<h1
-						className="relative m-0 text-center leading-none tracking-tight font-extrabold"
+						className="relative m-0 text-center leading-none tracking-tight font-extrabold pb-2"
 						style={{
 							fontSize: "clamp(2rem, 6vw, 7rem)",
 							// Gradient uses token values — stays in sync with theme
-							backgroundImage: "linear-gradient(135deg, var(--color-foreground) 0%, var(--color-primary) 50%, var(--color-secondary) 100%)",
+							backgroundImage: "linear-gradient(160deg, var(--color-foreground) 0%, var(--color-primary) 80%, var(--color-secondary) 100%)",
 							WebkitBackgroundClip: "text",
 							WebkitTextFillColor: "transparent",
 							backgroundClip: "text",
@@ -169,13 +173,7 @@ export default function Header() {
 						{CONFIG.subtitle}
 					</p>
 				</motion.div>
-
-				{/* ── Bottom vignette ── */}
-				<div
-					className="absolute bottom-0 left-0 right-0 h-[15%] pointer-events-none"
-					style={{ background: "linear-gradient(to bottom, transparent, var(--color-background))" }}
-				/>
-			</header>
+			</motion.header>
 		</>
 	);
 }

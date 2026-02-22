@@ -1,11 +1,25 @@
 import Header from "./components/Header";
+import ProjectList from "./components/ProjectList"
 
 export default function Home() {
 	return (
 		<main className="min-h-screen bg-slate-950 text-white">
-			<Header />
-			<div className="px-6 py-24 space-y-24">
-				{/* Project cards will go here */}
+			<div className="sticky top-0 z-0">
+				<Header />
+
+			</div>
+			<div className="relative z-10">
+				{/* Vignette*/}
+				<div
+					className="w-full pointer-events-none"
+					style={{
+						height: "40px",
+						marginTop: "-40px",
+						background: "linear-gradient(to bottom, transparent, var(--color-background))",
+					}}
+				/>
+				<ProjectList />
+
 			</div>
 		</main>
 	);
