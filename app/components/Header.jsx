@@ -117,7 +117,7 @@ export default function Header() {
 					initial={{ opacity: 0, scale: 0.96, x: "-50%", y: "-50%" }}
 					animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
 					transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
-					className="absolute left-[50%] top-[50%] h-full w-[50vw] bg-surface flex flex-col items-center justify-center"
+					className="absolute left-[50%] top-[50%] h-full w-[50vw] min-w-[400px] bg-surface flex flex-col items-center justify-center"
 					style={{
 
 						clipPath: `url(#${CLIP_ID})`,
@@ -143,7 +143,7 @@ export default function Header() {
 					<h1
 						className="relative m-0 text-center leading-none tracking-tight font-extrabold"
 						style={{
-							fontSize: "clamp(2rem, 6vw, 7rem)",
+							fontSize: "clamp(3rem, 6vw, 7rem)",
 							// Gradient uses token values — stays in sync with theme
 							// backgroundImage: "linear-gradient(160deg, var(--color-foreground) 0%, var(--color-primary) 80%, var(--color-secondary) 100%)",
 							color: "var(--color-foreground)",
