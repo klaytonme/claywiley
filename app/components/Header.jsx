@@ -5,7 +5,7 @@ import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motio
 const CONFIG = {
 	name: "Clayton Wiley",
 	title: "Embedded Systems Engineer",
-	subtitle: "Robotics · Vision · Embedded Systems",
+	subtitle: "Automation · Real-Time Control · Distributed Systems",
 	photoLeft: "/images/profileDown/2.png",
 	photoRight: "/images/profileUp/2.png",
 };
