@@ -1,13 +1,13 @@
 "use client";
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 
 const CONFIG = {
 	name: "Clayton Wiley",
 	title: "Embedded Systems Engineer",
 	subtitle: "Robotics · Vision · Embedded Systems",
-	photoLeft: "/images/profileDown/3.png",
-	photoRight: "/images/profileUp/3.png",
+	photoLeft: "/images/profileDown/2.png",
+	photoRight: "/images/profileUp/2.png",
 };
 
 
@@ -47,7 +47,8 @@ function TitleClipDef() {
 
 const maskLeft = "linear-gradient(to right,  black 0%, black 45%, transparent 100%)";
 const maskRight = "linear-gradient(to left,   black 0%, black 45%, transparent 100%)";
-const maskTitle = "radial-gradient(ellipse 72% 150% at 50% 50%, black 50%, transparent 100%)";
+const maskTitle = "radial-gradient(ellipse 72% 200% at 50% 50%, black 50%, transparent 70%)";
+// const maskTitle = "linear-gradient(to left, transparent 10%, black 10%, black 90%, transparent 90%"
 
 // ─── Main Component ───────────────────────────────────────────────────────────
 
@@ -55,6 +56,7 @@ export default function Header() {
 
 	const { scrollY } = useScroll();
 	const y = useTransform(scrollY, [0, 500], [0, -250]);
+	const blur = useTransform(scrollY, [0, 300], [0, 3]);
 
 	return (
 		<>
@@ -72,6 +74,7 @@ export default function Header() {
 			<motion.header className="w-full overflow-hidden flex items-stretch bg-background"
 				style={{
 					y,
+					filter: useMotionTemplate`blur(${blur}px)`,
 					height: "clamp(260px, 36vw, 520px)",
 				}}
 			>
@@ -81,7 +84,6 @@ export default function Header() {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 1, ease: "easeOut" }}
 					className="absolute inset-0 h-full aspect-7/6"
-					style={{ WebkitMaskImage: maskLeft, maskImage: maskLeft }}
 				>
 					<img
 						src={CONFIG.photoLeft}
@@ -97,7 +99,6 @@ export default function Header() {
 					animate={{ opacity: 1, x: 0 }}
 					transition={{ duration: 1, ease: "easeOut" }}
 					className="absolute inset-0 h-full aspect-7/6 right-0 left-[unset]"
-					style={{ WebkitMaskImage: maskRight, maskImage: maskRight }}
 				>
 					<img
 						src={CONFIG.photoRight}
@@ -107,20 +108,25 @@ export default function Header() {
 					/>
 				</motion.div>
 
+				<div
+					className="absolute ml-[20vw] h-full w-[60vw] flex flex-col items-center justify-center"
+					style={{ backgroundImage: "radial-gradient(ellipse 70% 300% at 50% 50%, black 30%, transparent 70%)" }} />
+
 				{/* ── Title block (clipped + faded) ── */}
 				<motion.div
 					initial={{ opacity: 0, scale: 0.96, x: "-50%", y: "-50%" }}
 					animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
 					transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
-					className="absolute left-[50%] top-[50%] h-full w-[60vw] bg-surface flex flex-col items-center justify-center"
+					className="absolute left-[50%] top-[50%] h-full w-[50vw] bg-surface flex flex-col items-center justify-center"
 					style={{
 
 						clipPath: `url(#${CLIP_ID})`,
-						WebkitMaskImage: maskTitle,
-						maskImage: maskTitle,
+						// WebkitMaskImage: maskTitle,
+						// maskImage: maskTitle,
 						gap: "clamp(4px, 1vw, 12px)",
 					}}
 				>
+
 					{/* Subtle grid texture overlay */}
 					<div
 						className="absolute inset-0 pointer-events-none opacity-20"
@@ -135,14 +141,15 @@ export default function Header() {
 
 					{/* Name */}
 					<h1
-						className="relative m-0 text-center leading-none tracking-tight font-extrabold pb-2"
+						className="relative m-0 text-center leading-none tracking-tight font-extrabold"
 						style={{
 							fontSize: "clamp(2rem, 6vw, 7rem)",
 							// Gradient uses token values — stays in sync with theme
-							backgroundImage: "linear-gradient(160deg, var(--color-foreground) 0%, var(--color-primary) 80%, var(--color-secondary) 100%)",
-							WebkitBackgroundClip: "text",
-							WebkitTextFillColor: "transparent",
-							backgroundClip: "text",
+							// backgroundImage: "linear-gradient(160deg, var(--color-foreground) 0%, var(--color-primary) 80%, var(--color-secondary) 100%)",
+							color: "var(--color-foreground)",
+							// WebkitBackgroundClip: "text",
+							// WebkitTextFillColor: "transparent",
+							// backgroundClip: "text",
 						}}
 					>
 						{CONFIG.name}
@@ -150,24 +157,25 @@ export default function Header() {
 
 					{/* Accent line */}
 					<div
-						className="rounded-sm h-0.5 pointer-events-none"
+						className="rounded-sm h-0.5 pointer-events-none bg-primary"
 						style={{
-							width: "clamp(40px, 8%, 80px)",
-							background: "linear-gradient(90deg, transparent, var(--color-primary), transparent)",
+							width: "clamp(40px, 8%, 300px)",
+							height: "clamp(1px, 0.5%, 10px)",
+							// background: "linear-gradient(90deg, transparent, var(--color-primary), transparent)",
 						}}
 					/>
 
 					{/* Job title */}
 					<p
-						className="relative m-0 text-center uppercase tracking-widest font-bold text-primary"
-						style={{ fontSize: "clamp(0.8rem, 1.6vw, 2rem)" }}
+						className="relative m-0 text-center tracking-widest font-bold text-primary"
+						style={{ fontSize: "clamp(0.8rem, 1.8vw, 2rem)" }}
 					>
 						{CONFIG.title}
 					</p>
 
 					{/* Subtitle */}
 					<p
-						className="relative m-0 text-center tracking-wider font-light text-foreground-muted"
+						className="relative m-0 text-center font-mono font-light text-foreground-muted"
 						style={{ fontSize: "clamp(0.65rem, 1.1vw, 1.5rem)" }}
 					>
 						{CONFIG.subtitle}

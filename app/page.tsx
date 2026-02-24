@@ -16,7 +16,9 @@ export default function Home() {
 					style={{
 						height: "40px",
 						marginTop: "-40px",
-						background: "linear-gradient(to bottom, transparent, var(--color-background))",
+						opacity: 0.1,
+						background: "linear-gradient(to bottom, transparent, black)",
+						transition: "opacity 0.5s ease",
 					}}
 				/>
 				<ProjectList />

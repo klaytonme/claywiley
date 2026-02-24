@@ -114,7 +114,7 @@ function SkillTags({ tags }: { tags: string[] }) {
 			{tags.map((tag) => (
 				<span
 					key={tag}
-					className="px-2 py-0.5 text-[10px] font-mono font-medium uppercase tracking-wider rounded border border-border text-foreground-muted bg-surface-raised"
+					className="px-2 py-0.5 text-[10px] font-medium font-mono uppercase rounded border border-border text-foreground-muted bg-surface-raised"
 				>
 					{tag}
 				</span>
@@ -144,9 +144,15 @@ function TabContent({ tab }: { tab: Tab }) {
 			{isLinksTab ? (
 				<LinksPanel links={tab.links!} />
 			) : (
-				<>
+				<div className="gap-6 p-6 items-start w-full">
+					{/* Video */}
+					{hasVideo && (
+						<div className="w-full mb-4 md:float-right md:w-[40%] md:shrink-0 md:ml-8">
+							<YouTubeEmbed videoId={tab.youtubeId!} />
+						</div>
+					)}
 					{/* Body text */}
-					<div className={["flex-1 min-w-0", hasVideo ? "max-w-[60%]" : ""].join(" ")}>
+					<div className={"fw-full md:flex-1 md:min-w-0"}>
 						<div className="max-w-none text-foreground-muted leading-relaxed text-sm
 										[&>p]:mb-3 [&>p:last-child]:mb-0
 										[&>ul]:list-disc [&>ul]:pl-4 [&>ul]:mb-3
@@ -155,18 +161,15 @@ function TabContent({ tab }: { tab: Tab }) {
 										[&>h3]:text-foreground [&>h3]:font-semibold [&>h3]:mb-2 [&>h3]:mt-4
 										[&>strong]:text-foreground [&>strong]:font-semibold
 										[&>code]:font-mono [&>code]:text-xs [&>code]:text-primary
-										[&>code]:bg-surface-raised [&>code]:px-1 [&>code]:rounded">
+										[&>code]:bg-surface-raised [&>code]:px-1 [&>code]:rounded"
+							style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}
+						>
 							<ReactMarkdown>{tab.body ?? ""}</ReactMarkdown>
 						</div>
 					</div>
 
-					{/* Video */}
-					{hasVideo && (
-						<div className="w-[40%] shrink-0">
-							<YouTubeEmbed videoId={tab.youtubeId!} />
-						</div>
-					)}
-				</>
+
+				</div>
 			)}
 		</motion.div>
 	);
@@ -179,7 +182,7 @@ export default function ProjectCard({ project }: { project: Project }) {
 	const activeTab = project.tabs.find((t) => t.id === activeTabId)!;
 
 	return (
-		<article className="w-full flex flex-row bg-surface border border-border rounded-xl overflow-hidden"
+		<article className="w-full flex flex-row bg-surface border border-border rounded-xl overflow-hidden shadow-xl"
 			style={{ minHeight: "clamp(220px, 28vw, 380px)" }}>
 
 			{/* ── Photo (hidden on mobile) ── */}
@@ -192,7 +195,11 @@ export default function ProjectCard({ project }: { project: Project }) {
 				/>
 				{/* Subtle gradient over photo bottom */}
 				<div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-					style={{ background: "linear-gradient(to bottom, transparent, var(--color-surface))" }} />
+					style={{
+						background: "linear-gradient(to bottom, transparent, black)",
+						opacity: 0.4,
+						transition: "opacity 0.5s ease"
+					}} />
 			</div>
 
 			{/* ── Right side: title + nav + content ── */}

@@ -4,13 +4,13 @@
 	/* ── Dark mode (default) ── deep forest/terminal greens */
 	--color-background: #080f0b;
 	--color-surface: #0e1912;
-	--color-surface-raised: #162318;
+	--color-surface-raised: #1a2a1c;
 
 	--color-foreground: #ddeee4;
-	--color-foreground-muted: rgba(180, 220, 195, 0.6);
+	--color-foreground-muted: rgba(180, 220, 195, 0.8);
 	--color-foreground-subtle: rgba(180, 220, 195, 0.32);
 
-	--color-primary: #62ac4c;
+	--color-primary: #7dc367;
 	--color-primary-foreground: #080f0b;
 
 	--color-secondary: #29b32e;
@@ -21,22 +21,30 @@
 
 	--color-destructive: #e07070;
 	--color-destructive-foreground: #080f0b;
+
+	--vignette-opacity: 1;
 }
 
 [data-theme="light"] {
 	/* ── Light mode ── overcast sage, desaturated mint */
-	--color-background: #a3ab9d;
-	--color-surface: #f7f7f2;
-	--color-surface-raised: #ffffff;
+	--color-background: rgb(236, 240, 234);
+	--color-surface: rgb(255, 255, 255);
+	--color-surface-raised: #d1dbce;
 
-	--color-foreground: #1f2418;
-	--color-foreground-muted: rgba(35, 42, 25, 0.58);
-	--color-foreground-subtle: rgba(35, 42, 25, 0.35);
 
-	--color-primary: #4a7c59;
+	--color-foreground: #1f2f08;
+	--color-foreground-muted: #2b371a;
+	--color-foreground-subtle: rgba(35, 42, 25, 0.7);
+
+
+	/* --color-foreground: #ffffff;
+	--color-foreground-muted: #ffffff;
+	--color-foreground-subtle: #ffffff; */
+
+	--color-primary: #2a4833;
 	--color-primary-foreground: #ffffff;
 
-	--color-secondary: #7a8c5a;
+	--color-secondary: #343b29;
 	--color-secondary-foreground: #ffffff;
 
 	--color-border: rgba(50, 60, 30, 0.12);
@@ -44,6 +52,8 @@
 
 	--color-destructive: #a84040;
 	--color-destructive-foreground: #ffffff;
+
+	--vignette-opacity: 0;
 }
 
 @theme inline {
