@@ -105,7 +105,7 @@ The most compelling near-term extensions include
 				body: "",
 				links: [
 					{ label: "Thesis PDF", url: "https://scholarcommons.scu.edu/elec_senior/100/", icon: "paper" },
-					{ label: "Source Code", url: "https://github.com/claytonwiley/pi-vision-followspot", icon: "github" },
+					{ label: "Source Code", url: "https://github.com/klaytonme/Auto-Followspot.git", icon: "github" },
 					{ label: "Demo Video", url: "https://youtu.be/Fg9T1ztIY08", icon: "video" },
 				]
 			}
