@@ -55,6 +55,7 @@ The system sits inline on a **DMX512** universe between the lightboard and the m
 				body: `Face detection failed immediately — performers at 45-foot throw distances don't give enough facial resolution, and stage lighting is too unpredictable. Instead, I made the tracking target easier to find: three 850 nm IR emitters mounted on the performer's costume (shoulders and forehead), wired to a pocket-sized battery pack.
 
 I removed the **Pi HQ camera**'s built-in IR-cut filter and fitted an 850 nm bandpass lens filter, reducing the performer to three bright points against near-total darkness regardless of stage lighting. I trained a **Haar Cascade Classifier** on 2,000 positive and 10,000 negative samples captured in both lab and live stage environments. At runtime, **OpenCV's KCF tracker** maintains position state between frames rather than re-detecting from scratch, running at **~3×** the throughput of raw detection.`,
+				youtubeId: "https://youtu.be/Te8HSBv5tcQ",
 			},
 			{
 				id: "serial-comms",
@@ -67,6 +68,7 @@ Two parallel C processes handle the actuation stack:
 - A separate Main Control process handles coordinate transformation and state machine logic without competing for the daemon's clock cycle.
 
 Commands are issued from the lightboard using a range-based action table — holding a DMX value in a defined range for one second triggers the corresponding function — the same pattern used by professional fixtures like the **Vari-Lite VL2500**.`,
+				youtubeId: "https://youtu.be/snR9h9QaeVk",			
 			},
 			{
 				id: "hardware-design",
@@ -83,6 +85,7 @@ On the camera side, I removed the Pi HQ camera's built-in **IR-cut filter** per 
 The control channel action table was designed to mirror the pattern already used by professional fixtures like the Vari-Lite VL2500 — range-based triggers with deliberate gaps to prevent false positives from channel noise. Operators interact with the module entirely from their existing lightboard with no new hardware on the operator side.
 
 On the electrical safety side, the Vari-Lites used for testing are variable-voltage fixtures capable of running on 120V, which avoided the 240V theatrical power grid entirely. A custom Edison-to-L6 adapter was fabricated using theatrical-grade cable under the supervision of SCU's Theater Operations Manager and tested for continuity before being connected to any live circuit — standard practice for theatrical electrical work and a requirement I took seriously given the high-current environment.`,
+				youtubeId: "https://youtu.be/SWz5V_hnVDg",
 			},
 			{
 				id: "results",
@@ -94,6 +97,7 @@ The main limitation is lens focal range — the 8mm fixed lens was calibrated fo
 The most compelling near-term extensions include
 1. Multi-performer tracking which would require led signal sequencing to distinguish between otherwise identical patterns
 2. Multi-fixture tracking which would likely require a second camera for 3D localization.`,
+				youtubeId: "https://youtu.be/cbxTArr-P8E",
 			},
 			{
 				id: "links",
