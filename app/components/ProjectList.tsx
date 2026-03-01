@@ -9,20 +9,11 @@ import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { projects } from "@/data/projects";
 import ProjectCard from "./ProjectCard";
-import SectionNav from "./SectionNav";
 
 export default function ProjectList() {
 	return (
-		<main className="w-full bg-background z-10">
+		<>
 			{/* Section header */}
-			<div className="px-6 md:px-12 py-8">
-				{/* <h2 className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-foreground-muted"
-					style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}>
-					Selected Projects
-				</h2> */}
-				<SectionNav />
-				<div className="mt-2 h-px w-full bg-border" />
-			</div>
 
 			{/* Cards */}
 			<div className="flex flex-col gap-4 px-6 md:px-12 pb-24">
@@ -32,7 +23,7 @@ export default function ProjectList() {
 					</AnimatedCard>
 				))}
 			</div>
-		</main>
+		</>
 	);
 }
 

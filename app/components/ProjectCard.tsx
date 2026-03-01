@@ -56,7 +56,7 @@ function TabNav({
 						{isActive && (
 							<motion.div
 								layoutId="tab-indicator"
-								className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-t-sm"
+								className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-sm"
 								transition={{ type: "spring", stiffness: 400, damping: 35 }}
 							/>
 						)}

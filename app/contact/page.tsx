@@ -1,7 +1,7 @@
-import Header from "./components/Header";
-import ProjectList from "./components/ProjectList"
-import Footer from "./components/Footer"
-import SectionNav from "./components/SectionNav";
+import Header from "@/app/components/Header";
+import ProjectList from "@/app/components/ProjectList"
+import Footer from "@/app/components/Footer"
+import SectionNav from "@/app/components/SectionNav";
 
 export default function Home() {
 	return (
@@ -25,14 +25,9 @@ export default function Home() {
 
 				<main className="w-full bg-background z-10">
 					<div className="px-6 md:px-12 py-8">
-						{/* <h2 className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-foreground-muted"
-									style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}>
-									Selected Projects
-								</h2> */}
 						<SectionNav />
 						<div className="mt-2 h-px w-full bg-border" />
 					</div>
-					<ProjectList />
 					<Footer />
 				</main>
 			</div>

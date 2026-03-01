@@ -117,7 +117,7 @@ export default function Header() {
 					initial={{ opacity: 0, scale: 0.96, x: "-50%", y: "-50%" }}
 					animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
 					transition={{ duration: 0.9, delay: 0.25, ease: "easeOut" }}
-					className="absolute left-[50%] top-[50%] h-full w-[50vw] min-w-[400px] bg-surface flex flex-col items-center justify-center"
+					className="absolute left-[50%] top-[50%] h-full w-[50vw] min-w-100 bg-surface flex flex-col items-center justify-center"
 					style={{
 
 						clipPath: `url(#${CLIP_ID})`,
