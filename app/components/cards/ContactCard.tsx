@@ -17,14 +17,6 @@ import { bio } from "@/data/contact";
 
 // ─── Icon map for link types ──────────────────────────────────────────────────
 
-const LINK_ICONS: Record<LinkIcon, string> = {
-	github: "↗ GitHub",
-	docs: "↗ Docs",
-	demo: "↗ Demo",
-	paper: "↗ Paper",
-	video: "↗ Video",
-};
-
 const STYLES: Record<string, { selected: string; deselected: string }> = {
 	red: { selected: "bg-indicator-s-red border-indicator-s-red", deselected: "border-indicator-d-red" },
 	yellow: { selected: "bg-indicator-s-yellow border-indicator-s-yellow", deselected: "border-indicator-d-yellow" },
@@ -71,47 +63,6 @@ function TabNav({
 				);
 			})}
 		</nav>
-	);
-}
-
-function YouTubeEmbed({ videoId }: { videoId: string }) {
-	return (
-		<div className="relative w-full rounded-lg overflow-hidden border border-border bg-surface-raised"
-			style={{ aspectRatio: "16/9" }}>
-			<iframe
-				src={`https://www.youtube.com/embed/${videoId}`}
-				title="Project video"
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-				allowFullScreen
-				className="absolute inset-0 w-full h-full"
-			/>
-		</div>
-	);
-}
-
-function LinksPanel({ links }: { links: NonNullable<Tab["links"]> }) {
-	return (
-		<div className={[
-			"grid gap-3 w-full mx-auto",
-			links.length > 3 ? "grid-cols-2 max-w-250" : "grid-cols-1 max-w-125",
-		].join(" ")}>
-			{links.map((link, index) => (
-				<a
-					key={link.url + "-" + index}
-					href={link.url}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="group flex items-center justify-between px-5 py-4 rounded-lg border border-border bg-surface-raised hover:border-primary hover:bg-surface transition-all duration-200"
-				>
-					<span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-						{link.label}
-					</span>
-					<span className="text-xs text-foreground-subtle group-hover:text-primary transition-colors font-mono">
-						{link.icon ? LINK_ICONS[link.icon] : "↗"}
-					</span>
-				</a>
-			))}
-		</div>
 	);
 }
 
