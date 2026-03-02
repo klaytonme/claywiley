@@ -1,6 +1,6 @@
 "use client";
 
-// ─── components/cards/ContactCard.tsx ───────────────────────────────────────────────
+// ─── components/cards/ResumeCard.tsx ───────────────────────────────────────────────
 //
 //	Content pulled from data/contact.tsx
 //
