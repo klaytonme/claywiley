@@ -1,7 +1,8 @@
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer"
 import SectionNav from "@/app/components/SectionNav";
-import Contact from "@/app/components/Contact";
+import ContactCard from "@/app/components/cards/ContactCard"
+import AnimatedCard from "@/app/components/cards/AnimatedCard"
 
 
 export default function Home() {
@@ -28,7 +29,11 @@ export default function Home() {
 					<div className="px-6 md:px-12 py-8">
 						<SectionNav />
 						<div className="mt-2 h-px w-full bg-border" />
-						<Contact />
+
+						<AnimatedCard key={"contact"} index={0}>
+							<ContactCard collapsedInit={false} />
+						</AnimatedCard>
+
 					</div>
 				</main>
 			</div>
