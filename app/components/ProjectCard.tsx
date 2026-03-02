@@ -137,14 +137,14 @@ function TabContent({ tab }: { tab: Tab }) {
 			exit={{ opacity: 0, y: -6 }}
 			transition={{ duration: 0.2, ease: "easeOut" }}
 			className={[
-				"flex gap-6 p-6 w-full",
+				"flex gap-6 p-12 pb-6 w-full",
 				isLinksTab ? "flex-col mx-auto" : "flex-row items-start",
 			].join(" ")}
 		>
 			{isLinksTab ? (
 				<LinksPanel links={tab.links!} />
 			) : (
-				<div className="gap-6 p-6 items-start w-full">
+				<div className="gap-6 items-start w-full">
 					{/* Video */}
 					{hasVideo && (
 						<div className="w-full mb-4 md:float-right md:w-[40%] md:shrink-0 md:ml-8">
@@ -179,15 +179,29 @@ function TabContent({ tab }: { tab: Tab }) {
 
 export default function ProjectCard({ project }: { project: Project }) {
 	const [activeTabId, setActiveTabId] = useState(project.tabs[0].id);
+	const [collapsed, setCollapsed] = useState(false);
 	const activeTab = project.tabs.find((t) => t.id === activeTabId)!;
 
 	return (
-		<article className="w-full flex flex-row bg-surface border border-border rounded-xl overflow-hidden shadow-xl"
-			style={{ minHeight: "clamp(220px, 28vw, 380px)" }}>
+		<article className="w-full flex flex-row bg-surface border border-border rounded-xl overflow-hidden shadow-xl">
+
+			{/* ── Collapse triangle — sits in the margin, aligned with title ── */}
+			<button
+				onClick={() => setCollapsed((v) => !v)}
+				aria-label={collapsed ? "Expand project" : "Collapse project"}
+				className="absolute shrink-0 mt-[1.35rem] -ml-5 text-foreground-subtle hover:text-primary transition-colors duration-200 cursor-pointer"
+			>
+				<motion.span
+					animate={{ rotate: collapsed ? -90 : 0 }}
+					transition={{ duration: 0.2, ease: "easeOut" }}
+					className="block text-[20px] leading-none select-none"
+				>
+					▾
+				</motion.span>
+			</button>
 
 			{/* ── Photo (hidden on mobile) ── */}
-			<div className="hidden md:block shrink-0 relative border-r border-border aspect-3/4"
-				style={{ minWidth: "18vw" }}>
+			<div className={["hidden md:block shrink-0 relative border-r border-border aspect-3/4", (collapsed ? "min-w-20" : " min-w-[18vw]")].join(" ")}>
 				<img
 					src={project.photo}
 					alt={project.title}
@@ -203,10 +217,10 @@ export default function ProjectCard({ project }: { project: Project }) {
 			</div>
 
 			{/* ── Right side: title + nav + content ── */}
-			<div className="flex flex-col flex-1 min-w-0">
+			<div className="flex flex-col flex-1 my-6 min-w-0">
 
 				{/* Card header */}
-				<div className="px-6 pt-5 pb-3 border-b border-border">
+				<div className="px-6 border-border">
 					<h2 className="text-base font-bold text-foreground tracking-tight leading-tight"
 						style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)" }}>
 						{project.title}
@@ -217,22 +231,26 @@ export default function ProjectCard({ project }: { project: Project }) {
 							{project.subtitle}
 						</p>
 					)}
-					{project.tags && <SkillTags tags={project.tags} />}
+					{!collapsed && project.tags && <SkillTags tags={project.tags} />}
 				</div>
 
-				{/* Tab navigation */}
-				<TabNav
-					tabs={project.tabs}
-					activeId={activeTabId}
-					onSelect={setActiveTabId}
-				/>
+				{!collapsed && <>
+					<div className="h-px w-full bg-border mt-3"></div>
 
-				{/* Tab content */}
-				<div className="flex-1 overflow-hidden">
-					<AnimatePresence mode="wait">
-						<TabContent key={activeTabId} tab={activeTab} />
-					</AnimatePresence>
-				</div>
+					{/* Tab navigation */}
+					<TabNav
+						tabs={project.tabs}
+						activeId={activeTabId}
+						onSelect={setActiveTabId}
+					/>
+
+					{/* Tab content */}
+					<div className="flex-1 overflow-hidden">
+						<AnimatePresence mode="wait">
+							<TabContent key={activeTabId} tab={activeTab} />
+						</AnimatePresence>
+					</div>
+				</>}
 
 			</div>
 		</article>
