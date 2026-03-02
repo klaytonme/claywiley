@@ -47,8 +47,8 @@ export type Contact = {
 
 export const bio: Contact = {
 	photo: "images/profileDown/clayton_senior.png",
-	title: "Clayton Wiley",
-	subtitle: "Contact Information",
+	title: "Contact Information",
+	subtitle: "For job/interview offers, project proposals, questions, or comments",
 	tabs: [
 		{
 			id: "main",
@@ -60,12 +60,6 @@ export const bio: Contact = {
 					value: `If you would like to contact me for any reason, please use the information provided below
 	
 I typically respond within 24 hours.`,
-				},
-				{
-					type: "link",
-					prefix: "Email",
-					label: "me@claytonwiley.com",
-					url: "mailto:me@claytonwiley.com",
 				},
 				{
 					type: "indicator",
@@ -83,6 +77,12 @@ I typically respond within 24 hours.`,
 						style: "red",
 						selected: false
 					}]
+				},
+				{
+					type: "link",
+					prefix: "Email",
+					label: "me@claytonwiley.com",
+					url: "mailto:me@claytonwiley.com",
 				},
 				{
 					type: "link",
