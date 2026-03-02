@@ -1,10 +1,9 @@
-// ─── lib/projects.ts ──────────────────────────────────────────────────────────
+// ─── data/projects.ts ──────────────────────────────────────────────────────────
 //
 //  This is the single source of truth for all project content.
-//  Add, remove, or reorder projects here — the page renders whatever is in this array.
 //
 //  Tab order determines nav order. The Links tab should always be last.
-//  youtubeId is optional — omit it and the body text expands to fill the space.
+//  youtubeId is optional
 
 export type LinkIcon = "github" | "docs" | "demo" | "paper" | "video";
 

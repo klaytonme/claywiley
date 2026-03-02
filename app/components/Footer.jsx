@@ -14,7 +14,7 @@ export default function Footer() {
 	const year = new Date().getFullYear();
 
 	return (
-		<footer className="w-full border-t border-border bg-background">
+		<footer className="absolute bottom-0 w-full border-t border-border bg-background">
 			<div className="px-6 md:px-12 py-4 flex flex-wrap items-center justify-between gap-4">
 
 				{/* Copyright */}

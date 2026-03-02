@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // ─── CONFIG ───────────────────────────────────────────────────────────────────
 const NAV_LINKS = [
-	{ label: "Selected Projects", href: "#projects" },
+	{ label: "Selected Projects", href: "/#projects" },
 	{ label: "Contact Me", href: "/contact" },
 	{ label: "Website Credits", href: "/credits" },
 ];
