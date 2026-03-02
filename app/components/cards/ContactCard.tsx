@@ -186,10 +186,10 @@ function TabContent({ tab }: { tab: ContactTab }) {
 						);
 					}
 
-					return (<>
+					return (<div key={index}>
 						{index != 0 && <div className="bg-border w-full h-px my-2"></div>}
 						{out}
-					</>)
+					</div>)
 				})}
 
 			</motion.div>
