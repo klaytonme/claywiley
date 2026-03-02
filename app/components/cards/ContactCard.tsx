@@ -12,7 +12,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
-import type { ContactTab, MainTabContent } from "@/data/contact";
+import type { ContactTab } from "@/data/contact";
 import { bio } from "@/data/contact";
 
 // ─── Icon map for link types ──────────────────────────────────────────────────
@@ -23,6 +23,12 @@ const LINK_ICONS: Record<LinkIcon, string> = {
 	demo: "↗ Demo",
 	paper: "↗ Paper",
 	video: "↗ Video",
+};
+
+const STYLES: Record<string, { selected: string; deselected: string }> = {
+	red: { selected: "bg-indicator-s-red border-indicator-s-red", deselected: "border-indicator-d-red" },
+	yellow: { selected: "bg-indicator-s-yellow border-indicator-s-yellow", deselected: "border-indicator-d-yellow" },
+	green: { selected: "bg-indicator-s-green border-indicator-s-green", deselected: "border-indicator-d-green" },
 };
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
@@ -160,6 +166,22 @@ function TabContent({ tab }: { tab: ContactTab }) {
 								</div>
 							</div>
 						);
+
+					if (entry.type == "indicator") {
+						out = (
+							<div className="flex flex-col sm:flex-row gap-1 align-middle">
+								<div className="flex flex-col text-foreground-muted w-[10vw] justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.label}</div>
+								{entry.values.map((item, index) => {
+									let colorClass = STYLES[item.style];
+									return (
+										<div key={index}>
+											<div className={["w-4 h-4 rounded-[2em] border-2", item.selected ? colorClass.selected : colorClass.deselected].join(' ')}></div>
+										</div>
+									);
+								})}
+							</div>
+						);
+					}
 
 					return (<>
 						{index != 0 && <div className="bg-border w-full h-px my-2"></div>}
