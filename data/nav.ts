@@ -4,6 +4,6 @@
 
 export const NAV_LINKS = [
 	{ label: "Selected Projects", href: "/" },
-	{ label: "Contact Me", href: "/contact" },
+	{ label: "Contact & About Me", href: "/about" },
 	{ label: "Website Credits", href: "/credits" },
 ];
