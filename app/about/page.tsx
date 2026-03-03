@@ -27,10 +27,12 @@ export default function Home() {
 				/>
 
 				<main className="w-full h-full bg-background z-10">
-					<div className="flex flex-col px-6 md:px-12 py-8 gap-4">
+					<div className="flex flex-col px-6 md:px-12 py-8">
 						<SectionNav currentPath="/about" />
 						<div className="mt-2 h-px w-full bg-border" />
+					</div>
 
+					<div className="flex flex-col px-6 md:px-12 gap-4">
 						<AnimatedCard key={"contact"} index={0}>
 							<ContactCard collapsedInit={false} />
 						</AnimatedCard>
@@ -38,8 +40,8 @@ export default function Home() {
 						<AnimatedCard key={"resume"} index={1}>
 							<ResumeCard collapsedInit={true} />
 						</AnimatedCard>
-
 					</div>
+
 				</main>
 			</div>
 			<Footer />

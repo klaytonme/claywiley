@@ -23,8 +23,8 @@ export default function Home() {
 					}}
 				/>
 
-				<main className="w-full bg-background z-10">
-					<div className="px-6 md:px-12 py-8">
+				<main className="w-full h-full bg-background z-10">
+					<div className="flex flex-col px-6 md:px-12 py-8">
 						{/* <h2 className="text-xs font-mono font-medium uppercase tracking-[0.2em] text-foreground-muted"
 									style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}>
 									Selected Projects
