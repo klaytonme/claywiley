@@ -46,7 +46,7 @@ export type Contact = {
 
 
 export const bio: Contact = {
-	photo: "images/profileDown/clayton_senior.png",
+	photo: "images/contact/contact.png",
 	title: "Contact Information",
 	subtitle: "For interview offers, project proposals, questions, or comments",
 	tabs: [

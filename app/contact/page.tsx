@@ -27,7 +27,7 @@ export default function Home() {
 				/>
 
 				<main className="w-full h-full bg-background z-10">
-					<div className="px-6 md:px-12 py-8">
+					<div className="flex flex-col px-6 md:px-12 py-8 gap-4">
 						<SectionNav />
 						<div className="mt-2 h-px w-full bg-border" />
 

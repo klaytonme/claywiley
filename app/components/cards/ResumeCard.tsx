@@ -11,7 +11,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { bio } from "@/data/contact";
+// import { bio } from "@/data/contact";
 import { resumeConfig } from "@/data/resume";
 import type { ResumeEntry } from "@/data/resume";
 
@@ -80,16 +80,17 @@ function StandardPanel({
 	return (
 		<div className="flex flex-col gap-4">
 			<p
-				className="text-foreground-subtle leading-relaxed"
-				style={{ fontSize: "clamp(0.65rem, 1vw, 0.8rem)" }}
+				className="text-foreground-muted leading-relaxed"
+				style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)" }}
 			>
-				Select an area of engineering to view a resume tailored to that
-				discipline. Each version highlights the most relevant experience and
-				projects.
+				Select a specific area of engineering and view a resume tailored to that
+				discipline. This feature does not use AI but procedurally assembles pre-verified
+				sections of my resume. Each version is 100% accurate and highlights the most
+				relevant experience and project work.
 			</p>
 
 			<div className="flex flex-col gap-1">
-				<label className="text-[10px] font-mono uppercase tracking-widest text-foreground-subtle">
+				<label className="text-[12px] font-mono uppercase tracking-widest text-foreground-subtle">
 					Area
 				</label>
 				<select
@@ -102,7 +103,7 @@ function StandardPanel({
                      text-foreground font-medium
                      focus:outline-none focus:border-primary
                      transition-colors duration-200 cursor-pointer"
-					style={{ fontSize: "clamp(0.65rem, 1vw, 0.8rem)" }}
+					style={{ fontSize: "clamp(0.65rem, 1.5vw, 1rem)" }}
 				>
 					{resumeConfig.entries.map((entry) => (
 						<option key={entry.label} value={entry.label}>
@@ -118,9 +119,9 @@ function StandardPanel({
                    font-semibold uppercase tracking-widest
                    hover:opacity-90 active:opacity-75
                    transition-opacity duration-150 cursor-pointer"
-				style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.75rem)" }}
+				style={{ fontSize: "clamp(0.65rem, 1.5vw, 0.8rem)" }}
 			>
-				Generate
+				Assemble
 			</button>
 		</div>
 	);
@@ -157,7 +158,7 @@ function PDFViewer({
 	pdfPath: string | null;
 }) {
 	return (
-		<div className="relative w-full h-full min-h-100 bg-surface-raised rounded-lg border border-border overflow-hidden">
+		<div className={["relative w-full h-full bg-surface-raised rounded-lg border border-border overflow-hidden min-h-100", state === "ready" && "sm:min-h-200"].join(' ')}>
 			<AnimatePresence mode="wait">
 
 				{state === "idle" && (
@@ -261,7 +262,7 @@ export default function ResumeCard({ collapsedInit = false }: { collapsedInit?: 
 				collapsed ? "min-w-20" : "min-w-[18vw]",
 			].join(" ")}>
 				<img
-					src={bio.photo}
+					src={resumeConfig.photo}
 					alt="Profile photo"
 					className="absolute inset-0 w-full h-full object-cover object-center"
 				/>
@@ -298,12 +299,11 @@ export default function ResumeCard({ collapsedInit = false }: { collapsedInit?: 
 						<TabNav activeId={activeTab} onSelect={setActiveTab} />
 
 						{/* Body */}
-						<div className="flex flex-row gap-4 p-6 flex-1">
+						<div className="flex flex-col sm:flex-row gap-4 p-6 flex-1">
 
 							{/* Left panel */}
 							<div
-								className="flex flex-col gap-5 shrink-0"
-								style={{ width: "clamp(140px, 20%, 220px)" }}
+								className="flex flex-col gap-5 shrink-0 w-full sm:w-[25%] sm:max-w-75"
 							>
 								<AnimatePresence mode="wait">
 									{activeTab === "standard" ? (
@@ -331,7 +331,7 @@ export default function ResumeCard({ collapsedInit = false }: { collapsedInit?: 
 							</div>
 
 							{/* Vertical divider */}
-							<div className="w-px bg-border shrink-0" />
+							<div className="w-px hidden sm:flex bg-border shrink-0" />
 
 							{/* PDF viewer */}
 							<div className="flex-1 min-w-0">
