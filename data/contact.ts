@@ -51,8 +51,8 @@ export const bio: Contact = {
 	subtitle: "For interview offers, project proposals, questions, or comments",
 	tabs: [
 		{
-			id: "main",
-			label: "Main",
+			id: "info",
+			label: "Info",
 			type: "list",
 			content: [
 				{

@@ -1,43 +1,45 @@
 "use client";
 
-// ─── components/cards/ResumeCard.tsx ───────────────────────────────────────────────
+// ─── components/cards/ResumeCard.tsx ─────────────────────────────────────────
 //
-//	Content pulled from data/contact.tsx
+//  Resume viewer card matching ContactCard conventions.
+//  Config lives in data/resume.ts.
 //
-//  Renders the collapsible contact card with:
-//    - Photo (left, hidden on mobile)
-//    - Header (top right)
-//	  - Tab Navigation
-//.   - Body with blurbs, links, indicators, etc.
+//  Tabs:
+//    Standard   — dropdown to select engineering area + generate button + PDF viewer
+//    Generative — coming soon placeholder
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import type { ContactTab } from "@/data/contact";
 import { bio } from "@/data/contact";
+import { resumeConfig } from "@/data/resume";
+import type { ResumeEntry } from "@/data/resume";
 
-// ─── Icon map for link types ──────────────────────────────────────────────────
+// import type { ResumeEntry } from "@/data/resume";
+// import { resumeConfig } from "@/data/resume";
 
-const STYLES: Record<string, { selected: string; deselected: string }> = {
-	red: { selected: "bg-indicator-s-red border-indicator-s-red", deselected: "border-indicator-d-red" },
-	yellow: { selected: "bg-indicator-s-yellow border-indicator-s-yellow", deselected: "border-indicator-d-yellow" },
-	green: { selected: "bg-indicator-s-green border-indicator-s-green", deselected: "border-indicator-d-green" },
-};
+// ─── Types ────────────────────────────────────────────────────────────────────
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+type TabId = "standard" | "generative";
+type ViewerState = "idle" | "generating" | "ready";
+
+const TABS: { id: TabId; label: string }[] = [
+	{ id: "standard", label: "Standard" },
+	{ id: "generative", label: "Generative" },
+];
+
+// ─── Tab nav ──────────────────────────────────────────────────────────────────
 
 function TabNav({
-	tabs,
 	activeId,
 	onSelect,
 }: {
-	tabs: ContactTab[];
-	activeId: string;
-	onSelect: (id: string) => void;
+	activeId: TabId;
+	onSelect: (id: TabId) => void;
 }) {
 	return (
 		<nav className="flex items-center gap-1 border-b border-border mx-6 overflow-x-auto no-scrollbar">
-			{tabs.map((tab) => {
+			{TABS.map((tab) => {
 				const isActive = tab.id === activeId;
 				return (
 					<button
@@ -52,10 +54,9 @@ function TabNav({
 						style={{ fontSize: "clamp(0.7rem, 1.3vw, 0.9rem)" }}
 					>
 						{tab.label}
-						{/* Active indicator bar */}
 						{isActive && (
 							<motion.div
-								layoutId="tab-indicator"
+								layoutId="resume-tab-indicator"
 								className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-t-sm"
 								transition={{ type: "spring", stiffness: 400, damping: 35 }}
 							/>
@@ -67,101 +68,182 @@ function TabNav({
 	);
 }
 
-// ─── Tab content panel ────────────────────────────────────────────────────────
+// ─── Standard left panel ──────────────────────────────────────────────────────
 
-function TabContent({ tab }: { tab: ContactTab }) {
-	if (tab.type == "list")
-		return (
-			<motion.div
-				key={tab.id}
-				initial={{ opacity: 0, y: 6 }}
-				animate={{ opacity: 1, y: 0 }}
-				exit={{ opacity: 0, y: -6 }}
-				transition={{ duration: 0.2, ease: "easeOut" }}
-				className="flex p-6 pb-0 w-full flex-col mx-auto"
+function StandardPanel({
+	onGenerate,
+}: {
+	onGenerate: (entry: ResumeEntry) => void;
+}) {
+	const [selected, setSelected] = useState(resumeConfig.entries[0]);
+
+	return (
+		<div className="flex flex-col gap-4">
+			<p
+				className="text-foreground-subtle leading-relaxed"
+				style={{ fontSize: "clamp(0.65rem, 1vw, 0.8rem)" }}
 			>
-				{tab.content && tab.content.map((entry, index) => {
-					let out = <></>
-					if (entry.type == "link")
-						out = (
-							<div className="flex flex-col sm:flex-row gap-1 align-middle">
-								<div className="flex flex-col text-foreground-muted w-[10vw] justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.prefix}</div>
-								<a
-									key={entry.url + "-" + index}
-									href={entry.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="group flex w-full items-center justify-between px-5 py-4 rounded-lg border border-border bg-surface-raised hover:border-primary hover:bg-surface transition-all duration-200"
-								>
-									<span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
-										{entry.label ? entry.label : entry.url}
-									</span>
-								</a>
-							</div>
-						);
+				Select an area of engineering to view a resume tailored to that
+				discipline. Each version highlights the most relevant experience and
+				projects.
+			</p>
 
-					if (entry.type == "blurb")
-						out = (
-							<div className={"fw-full md:flex-1 md:min-w-0"}>
-								<div className="max-w-none text-foreground-muted leading-relaxed text-sm
-																[&>p]:mb-3 [&>p:last-child]:mb-0
-																[&>ul]:list-disc [&>ul]:pl-4 [&>ul]:mb-3
-																[&>ol]:list-decimal [&>ol]:pl-4 [&>ol]:mb-3
-																[&>li]:mb-1
-																[&>h3]:text-foreground [&>h3]:font-semibold [&>h3]:mb-2 [&>h3]:mt-4
-																[&>strong]:text-foreground [&>strong]:font-semibold
-																[&>code]:font-mono [&>code]:text-xs [&>code]:text-primary
-																[&>code]:bg-surface-raised [&>code]:px-1 [&>code]:rounded"
-									style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}
-								>
-									<ReactMarkdown>{entry.value ?? ""}</ReactMarkdown>
-								</div>
-							</div>
-						);
+			<div className="flex flex-col gap-1">
+				<label className="text-[10px] font-mono uppercase tracking-widest text-foreground-subtle">
+					Area
+				</label>
+				<select
+					value={selected.label}
+					onChange={(e) => {
+						const entry = resumeConfig.entries.find((r) => r.label === e.target.value)!;
+						setSelected(entry);
+					}}
+					className="w-full bg-surface-raised border border-border rounded-lg px-3 py-2
+                     text-foreground font-medium
+                     focus:outline-none focus:border-primary
+                     transition-colors duration-200 cursor-pointer"
+					style={{ fontSize: "clamp(0.65rem, 1vw, 0.8rem)" }}
+				>
+					{resumeConfig.entries.map((entry) => (
+						<option key={entry.label} value={entry.label}>
+							{entry.label}
+						</option>
+					))}
+				</select>
+			</div>
 
-					if (entry.type == "indicator") {
-						out = (
-							<div className="flex flex-col sm:flex-row gap-1 align-middle">
-								<div className="flex flex-col text-foreground-muted w-[10vw] justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.label}</div>
-								<div className="flex flex-col sm:flex-row gap-6 w-full">
-									{entry.values.map((item, index) => {
-										let colorClass = STYLES[item.style];
-										return (
-											<div className="flex flex-row gap-2" key={index}>
-												<div className={["w-4 h-4 my-auto rounded-[2em] border-2", item.selected ? colorClass.selected : colorClass.deselected].join(' ')}></div>
-												<span className={item.selected ? "text-foreground-muted" : "text-foreground-subtle"}>{item.label}</span>
-											</div>
-										);
-									})}
-								</div>
-							</div>
-						);
-					}
-
-					return (<div key={index}>
-						{index != 0 && <div className="bg-border w-full h-px my-2"></div>}
-						{out}
-					</div>)
-				})}
-
-			</motion.div>
-		);
+			<button
+				onClick={() => onGenerate(selected)}
+				className="w-full px-4 py-2.5 rounded-lg bg-primary text-primary-foreground
+                   font-semibold uppercase tracking-widest
+                   hover:opacity-90 active:opacity-75
+                   transition-opacity duration-150 cursor-pointer"
+				style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.75rem)" }}
+			>
+				Generate
+			</button>
+		</div>
+	);
 }
 
-// ─── Main ProjectCard ─────────────────────────────────────────────────────────
+// ─── Generative left panel ────────────────────────────────────────────────────
 
-export default function ContactCard({ collapsedInit }: { collapsedInit: Boolean }) {
-	const [activeTabId, setActiveTabId] = useState(bio.tabs[0].id);
+function GenerativePanel() {
+	return (
+		<div className="flex flex-col items-center justify-center gap-3 py-6 text-center">
+			<div className="w-8 h-8 rounded-full border-2 border-border flex items-center justify-center text-foreground-subtle text-sm">
+				✦
+			</div>
+			<p className="text-foreground-subtle font-mono text-[10px] uppercase tracking-widest">
+				Feature Coming Soon
+			</p>
+			<p
+				className="text-foreground-subtle leading-relaxed"
+				style={{ fontSize: "clamp(0.6rem, 0.9vw, 0.75rem)" }}
+			>
+				AI-tailored resumes based on a job description or role are in the works.
+			</p>
+		</div>
+	);
+}
+
+// ─── PDF viewer ───────────────────────────────────────────────────────────────
+
+function PDFViewer({
+	state,
+	pdfPath,
+}: {
+	state: ViewerState;
+	pdfPath: string | null;
+}) {
+	return (
+		<div className="relative w-full h-full min-h-100 bg-surface-raised rounded-lg border border-border overflow-hidden">
+			<AnimatePresence mode="wait">
+
+				{state === "idle" && (
+					<motion.div
+						key="idle"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-foreground-subtle"
+					>
+						<div className="w-12 h-16 border-2 border-border rounded flex items-center justify-center text-2xl opacity-40">
+							⎗
+						</div>
+						<p className="text-xs font-mono uppercase tracking-widest">
+							Select an area and generate
+						</p>
+					</motion.div>
+				)}
+
+				{state === "generating" && (
+					<motion.div
+						key="generating"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						className="absolute inset-0 flex flex-col items-center justify-center gap-4"
+					>
+						<div className="flex flex-col gap-2 w-2/3">
+							{[100, 85, 92, 70, 88, 60, 78].map((w, i) => (
+								<motion.div
+									key={i}
+									className="h-2 bg-border rounded-full"
+									animate={{ opacity: [0.3, 0.8, 0.3] }}
+									transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.1, ease: "easeInOut" }}
+									style={{ width: `${w}%` }}
+								/>
+							))}
+						</div>
+						<p className="text-xs font-mono uppercase tracking-widest text-foreground-subtle">
+							Preparing resume…
+						</p>
+					</motion.div>
+				)}
+
+				{state === "ready" && pdfPath && (
+					<motion.iframe
+						key="pdf"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						transition={{ duration: 0.3 }}
+						src={pdfPath}
+						title="Resume"
+						className="absolute inset-0 w-full h-full"
+					/>
+				)}
+
+			</AnimatePresence>
+		</div>
+	);
+}
+
+// ─── Main ResumeCard ──────────────────────────────────────────────────────────
+
+export default function ResumeCard({ collapsedInit = false }: { collapsedInit?: boolean }) {
 	const [collapsed, setCollapsed] = useState(collapsedInit);
-	const activeTab = bio.tabs.find((t) => t.id === activeTabId)!;
+	const [activeTab, setActiveTab] = useState<TabId>("standard");
+	const [viewerState, setViewerState] = useState<ViewerState>("idle");
+	const [activePdf, setActivePdf] = useState<string | null>(null);
+
+	function handleGenerate(entry: ResumeEntry) {
+		setViewerState("generating");
+		setActivePdf(null);
+		setTimeout(() => {
+			setActivePdf(entry.pdfPath);
+			setViewerState("ready");
+		}, resumeConfig.generateDelayMs);
+	}
 
 	return (
 		<article className="w-full flex flex-row bg-surface border border-border rounded-xl overflow-hidden shadow-xl">
 
-			{/* ── Collapse triangle — sits in the margin, aligned with title ── */}
+			{/* ── Collapse triangle ── */}
 			<button
 				onClick={() => setCollapsed((v) => !v)}
-				aria-label={collapsed ? "Expand project" : "Collapse project"}
+				aria-label={collapsed ? "Expand resume" : "Collapse resume"}
 				className="absolute shrink-0 mt-[1.35rem] -ml-5 text-foreground-subtle hover:text-primary transition-colors duration-200 cursor-pointer"
 			>
 				<motion.span
@@ -173,54 +255,92 @@ export default function ContactCard({ collapsedInit }: { collapsedInit: Boolean 
 				</motion.span>
 			</button>
 
-			{/* ── Photo (hidden on mobile) ── */}
-			<div className={["hidden md:block shrink-0 relative border-r border-border aspect-3/4", (collapsed ? "min-w-20" : " min-w-[18vw]")].join(" ")}>
+			{/* ── Photo ── */}
+			<div className={[
+				"hidden md:block shrink-0 relative border-r border-border aspect-3/4",
+				collapsed ? "min-w-20" : "min-w-[18vw]",
+			].join(" ")}>
 				<img
 					src={bio.photo}
-					alt="Image of Clayton Wiley"
+					alt="Profile photo"
 					className="absolute inset-0 w-full h-full object-cover object-center"
 				/>
-				{/* Subtle gradient over photo bottom */}
-				<div className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
-					style={{
-						background: "linear-gradient(to bottom, transparent, black)",
-						opacity: 0.4,
-						transition: "opacity 0.5s ease"
-					}} />
+				<div
+					className="absolute inset-x-0 bottom-0 h-1/3 pointer-events-none"
+					style={{ background: "linear-gradient(to bottom, transparent, black)", opacity: 0.4 }}
+				/>
 			</div>
 
-			{/* ── Right side: title + nav + content ── */}
+			{/* ── Right side ── */}
 			<div className="flex flex-col flex-1 my-6 min-w-0">
 
-				{/* Card header */}
-				<div className="px-6 border-border">
-					<h2 className="text-base font-bold text-foreground tracking-tight leading-tight"
-						style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)" }}>
-						{bio.title}
+				{/* Header */}
+				<div className="px-6">
+					<h2
+						className="font-bold text-foreground tracking-tight leading-tight"
+						style={{ fontSize: "clamp(1.3rem, 3vw, 1.9rem)" }}
+					>
+						{resumeConfig.title}
 					</h2>
-					<p className="text-xs text-foreground-muted mt-1 leading-snug"
-						style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}>
-						{bio.subtitle}
+					<p
+						className="text-foreground-muted mt-1 leading-snug"
+						style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}
+					>
+						{resumeConfig.subtitle}
 					</p>
 				</div>
 
-				{!collapsed && <>
-					<div className="h-px w-full bg-border mt-3"></div>
+				{!collapsed && (
+					<>
+						<div className="h-px w-full bg-border mt-3" />
 
-					{/* Tab navigation */}
-					<TabNav
-						tabs={bio.tabs}
-						activeId={activeTabId}
-						onSelect={setActiveTabId}
-					/>
+						{/* Tab nav */}
+						<TabNav activeId={activeTab} onSelect={setActiveTab} />
 
-					{/* Tab content */}
-					<div className="flex-1 overflow-hidden">
-						<AnimatePresence mode="wait">
-							<TabContent key={activeTabId} tab={activeTab} />
-						</AnimatePresence>
-					</div>
-				</>}
+						{/* Body */}
+						<div className="flex flex-row gap-4 p-6 flex-1">
+
+							{/* Left panel */}
+							<div
+								className="flex flex-col gap-5 shrink-0"
+								style={{ width: "clamp(140px, 20%, 220px)" }}
+							>
+								<AnimatePresence mode="wait">
+									{activeTab === "standard" ? (
+										<motion.div
+											key="standard"
+											initial={{ opacity: 0, y: 6 }}
+											animate={{ opacity: 1, y: 0 }}
+											exit={{ opacity: 0, y: -6 }}
+											transition={{ duration: 0.2 }}
+										>
+											<StandardPanel onGenerate={handleGenerate} />
+										</motion.div>
+									) : (
+										<motion.div
+											key="generative"
+											initial={{ opacity: 0, y: 6 }}
+											animate={{ opacity: 1, y: 0 }}
+											exit={{ opacity: 0, y: -6 }}
+											transition={{ duration: 0.2 }}
+										>
+											<GenerativePanel />
+										</motion.div>
+									)}
+								</AnimatePresence>
+							</div>
+
+							{/* Vertical divider */}
+							<div className="w-px bg-border shrink-0" />
+
+							{/* PDF viewer */}
+							<div className="flex-1 min-w-0">
+								<PDFViewer state={viewerState} pdfPath={activePdf} />
+							</div>
+
+						</div>
+					</>
+				)}
 
 			</div>
 		</article>
