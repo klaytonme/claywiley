@@ -36,7 +36,7 @@ export default function Home() {
 						</AnimatedCard>
 
 						<AnimatedCard key={"resume"} index={1}>
-							<ResumeCard collapsedInit={false} />
+							<ResumeCard collapsedInit={true} />
 						</AnimatedCard>
 
 					</div>

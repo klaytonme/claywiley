@@ -78,14 +78,14 @@ function TabContent({ tab }: { tab: ContactTab }) {
 				animate={{ opacity: 1, y: 0 }}
 				exit={{ opacity: 0, y: -6 }}
 				transition={{ duration: 0.2, ease: "easeOut" }}
-				className="flex p-6 pb-0 w-full flex-col mx-auto"
+				className="flex px-6 pt-4 w-full flex-col mx-auto"
 			>
 				{tab.content && tab.content.map((entry, index) => {
 					let out = <></>
 					if (entry.type == "link")
 						out = (
-							<div className="flex flex-col sm:flex-row gap-1 align-middle">
-								<div className="flex flex-col text-foreground-muted w-[10vw] justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.prefix}</div>
+							<div className="flex flex-row gap-1 align-middle">
+								<div className="flex flex-col text-foreground-muted w-[10vw] min-w-15 justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.prefix}</div>
 								<a
 									key={entry.url + "-" + index}
 									href={entry.url}
@@ -121,15 +121,15 @@ function TabContent({ tab }: { tab: ContactTab }) {
 
 					if (entry.type == "indicator") {
 						out = (
-							<div className="flex flex-col sm:flex-row gap-1 align-middle">
-								<div className="flex flex-col text-foreground-muted w-[10vw] justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.label}</div>
-								<div className="flex flex-col sm:flex-row gap-6 w-full">
+							<div className="flex flex-row gap-1 align-middle">
+								<div className="flex flex-col text-foreground-muted w-[10vw] min-w-15 justify-center" style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{entry.label}</div>
+								<div className="flex flex-col sm:flex-row gap-0 sm:gap-6 w-full">
 									{entry.values.map((item, index) => {
 										let colorClass = STYLES[item.style];
 										return (
 											<div className="flex flex-row gap-2" key={index}>
 												<div className={["w-4 h-4 my-auto rounded-[2em] border-2", item.selected ? colorClass.selected : colorClass.deselected].join(' ')}></div>
-												<span className={item.selected ? "text-foreground-muted" : "text-foreground-subtle"}>{item.label}</span>
+												<span className={item.selected ? "text-foreground-muted" : "text-foreground-subtle"} style={{ fontSize: "clamp(0.8rem, 1.6vw, 1rem)" }}>{item.label}</span>
 											</div>
 										);
 									})}

@@ -158,7 +158,7 @@ function PDFViewer({
 	pdfPath: string | null;
 }) {
 	return (
-		<div className={["relative w-full h-full bg-surface-raised rounded-lg border border-border overflow-hidden min-h-100", state === "ready" && "sm:min-h-200"].join(' ')}>
+		<div className={["relative w-full h-full bg-surface-raised rounded-lg border border-border overflow-hidden min-h-50", state === "ready" && "sm:min-h-200"].join(' ')}>
 			<AnimatePresence mode="wait">
 
 				{state === "idle" && (
