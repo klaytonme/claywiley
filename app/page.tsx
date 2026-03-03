@@ -29,7 +29,7 @@ export default function Home() {
 									style={{ fontSize: "clamp(0.8rem, 1.9vw, 1.2rem)" }}>
 									Selected Projects
 								</h2> */}
-						<SectionNav />
+						<SectionNav currentPath="/" />
 						<div className="mt-2 h-px w-full bg-border" />
 					</div>
 					<ProjectList />
