@@ -4,6 +4,7 @@ import SectionNav from "@/app/components/SectionNav";
 import AnimatedCard from "@/app/components/cards/AnimatedCard"
 import ContactCard from "@/app/components/cards/ContactCard"
 import ResumeCard from "@/app/components/cards/ResumeCard";
+import SlideCard from "@/app/components/cards/SlideCard";
 
 
 export default function Home() {
@@ -37,6 +38,10 @@ export default function Home() {
 
 						<AnimatedCard key={"resume"} index={1}>
 							<ResumeCard collapsedInit={true} />
+						</AnimatedCard>
+
+						<AnimatedCard key={"slides"} index={1}>
+							<SlideCard collapsedInit={false} />
 						</AnimatedCard>
 
 					</div>
