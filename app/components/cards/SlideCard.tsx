@@ -19,6 +19,9 @@ import type { SlideEntry } from "@/data/slides";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
+const SLIDES_PREFIX = "https://docs.google.com/presentation/d/e/";
+const SLIDES_EMBED_SUFFIX = "/pubembed";
+const SLIDES_DOWNLOAD_SUFFIX = "/export/pdf";
 
 // ─── Tab nav ──────────────────────────────────────────────────────────────────
 
@@ -67,7 +70,7 @@ function TabNav({
 export default function SlideCard({ collapsedInit = false }: { collapsedInit?: boolean }) {
 	const [collapsed, setCollapsed] = useState(collapsedInit);
 	const [activeTab, setActiveTab] = useState<string>(slideConfig.entries[0].id);
-	const activeUrl: string | undefined = slideConfig.entries.find((entry) => entry.id == activeTab)?.url
+	const activeUrl: string | undefined = slideConfig.entries.find((entry) => entry.id == activeTab)?.docId
 	console.log(activeUrl);
 
 
@@ -132,11 +135,13 @@ export default function SlideCard({ collapsedInit = false }: { collapsedInit?: b
 						<TabNav tabs={slideConfig.entries} activeId={activeTab} onSelect={setActiveTab} />
 
 						{/* Body */}
-						<div className="flex flex-col sm:flex-row gap-4 p-6 flex-1">
+						<div className="flex flex-col p-6 w-full justify-center">
+							{/* Download link */}
+
 
 							{/* Slide viewer */}
-							<div className="flex-1 min-w-0">
-								<iframe src={activeUrl} style={{ border: "none" }} width="960" height="569" allowFullScreen></iframe>
+							<div className="flex w-[60vw] aspect-960/580 max-h-200 mx-auto">
+								<iframe src={SLIDES_PREFIX + activeUrl + SLIDES_EMBED_SUFFIX} style={{ border: "none" }} className="h-full w-full" allowFullScreen></iframe>
 							</div>
 
 						</div>
