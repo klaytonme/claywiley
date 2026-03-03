@@ -19,8 +19,9 @@ import type { SlideEntry } from "@/data/slides";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-const SLIDES_PREFIX = "https://docs.google.com/presentation/d/e/";
+const SLIDES_EMBED_PREFIX = "https://docs.google.com/presentation/d/e/";
 const SLIDES_EMBED_SUFFIX = "/pubembed";
+const SLIDES_DOWNLOAD_PREFIX = "https://docs.google.com/presentation/d/";
 const SLIDES_DOWNLOAD_SUFFIX = "/export/pdf";
 
 // ─── Tab nav ──────────────────────────────────────────────────────────────────
@@ -70,7 +71,8 @@ function TabNav({
 export default function SlideCard({ collapsedInit = false }: { collapsedInit?: boolean }) {
 	const [collapsed, setCollapsed] = useState(collapsedInit);
 	const [activeTab, setActiveTab] = useState<string>(slideConfig.entries[0].id);
-	const activeUrl: string | undefined = slideConfig.entries.find((entry) => entry.id == activeTab)?.docId
+	const activeUrl: string | undefined = SLIDES_EMBED_PREFIX + slideConfig.entries.find((entry) => entry.id == activeTab)?.embedId + SLIDES_EMBED_SUFFIX;
+	const downloadUrl: string | undefined = SLIDES_DOWNLOAD_PREFIX + slideConfig.entries.find((entry) => entry.id == activeTab)?.docId + SLIDES_DOWNLOAD_SUFFIX;
 	console.log(activeUrl);
 
 
@@ -135,14 +137,27 @@ export default function SlideCard({ collapsedInit = false }: { collapsedInit?: b
 						<TabNav tabs={slideConfig.entries} activeId={activeTab} onSelect={setActiveTab} />
 
 						{/* Body */}
-						<div className="flex flex-col p-6 w-full justify-center">
-							{/* Download link */}
-
+						<div className="flex flex-col p-6 pb-0 w-full gap-6 justify-center items-center">
 
 							{/* Slide viewer */}
-							<div className="flex w-[60vw] aspect-960/580 max-h-200 mx-auto">
-								<iframe src={SLIDES_PREFIX + activeUrl + SLIDES_EMBED_SUFFIX} style={{ border: "none" }} className="h-full w-full" allowFullScreen></iframe>
+							<div className="flex w-full md:w-[80%] aspect-960/580 max-h-200">
+								<iframe src={activeUrl} style={{ border: "none" }} className="h-full w-full" allowFullScreen></iframe>
 							</div>
+
+							{/* Download link */}
+							<a
+								href={downloadUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								className="group flex w-full sm:w-[70%] items-center justify-between px-5 py-4 rounded-lg border border-border bg-surface-raised hover:border-primary hover:bg-surface transition-all duration-200"
+							>
+								<span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+									{"Download these slides"}
+								</span>
+								<span className="text-xs text-foreground-subtle group-hover:text-primary transition-colors font-mono">
+									{"↗"}
+								</span>
+							</a>
 
 						</div>
 					</>

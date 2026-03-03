@@ -41,7 +41,7 @@ export default function Home() {
 						</AnimatedCard>
 
 						<AnimatedCard key={"slides"} index={1}>
-							<SlideCard collapsedInit={false} />
+							<SlideCard collapsedInit={true} />
 						</AnimatedCard>
 
 					</div>
