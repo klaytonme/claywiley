@@ -127,6 +127,7 @@ function SkillTags({ tags }: { tags: string[] }) {
 
 function TabContent({ tab }: { tab: Tab }) {
 	const isLinksTab = tab.links && tab.links.length > 0;
+	const hasMedia = !!tab.youtubeId || !!tab.photoSrc;
 	const hasVideo = !!tab.youtubeId;
 
 	return (
@@ -146,9 +147,12 @@ function TabContent({ tab }: { tab: Tab }) {
 			) : (
 				<div className="gap-6 items-start w-full">
 					{/* Video */}
-					{hasVideo && (
+					{hasMedia && (
 						<div className="w-full mb-4 md:float-right md:w-[40%] md:shrink-0 md:ml-8">
-							<YouTubeEmbed videoId={tab.youtubeId!} />
+							{hasVideo ?
+								<YouTubeEmbed videoId={tab.youtubeId!} /> :
+								<img src={tab.photoSrc} className="w-full h-full"></img>
+							}
 						</div>
 					)}
 					{/* Body text */}

@@ -18,6 +18,7 @@ export type Tab = {
 	label: string;
 	body?: string;          // Supports markdown — rendered via react-markdown
 	youtubeId?: string;     // YouTube video ID (the part after ?v=)
+	photoSrc?: string;
 	links?: ProjectLink[];  // Only used on the Links tab
 };
 
@@ -67,7 +68,7 @@ Two parallel C processes handle the actuation stack:
 - A separate Main Control process handles coordinate transformation and state machine logic without competing for the daemon's clock cycle.
 
 Commands are issued from the lightboard using a range-based action table — holding a DMX value in a defined range for one second triggers the corresponding function — the same pattern used by professional fixtures like the **Vari-Lite VL2500**.`,
-				youtubeId: "snR9h9QaeVk",			
+				youtubeId: "snR9h9QaeVk",
 			},
 			{
 				id: "hardware-design",
@@ -131,6 +132,7 @@ ModuLit replaces the monolithic string with short, individually addressable LED 
 				body: `Each module is built around an STM32 microcontroller driving an LED through a dedicated LED driver, with power and data routed through a branching connector system that handles all inter-module interconnections. A key early design decision was running two data lines — forward and backward — rather than the single data line common in off-the-shelf addressable LED strings. This gives us bidirectional communication and cleaner fault isolation across the chain.
 
 Power delivery is the hardest constraint in a system like this. We chose Power over Ethernet for the host-to-module run specifically to eliminate high-voltage wiring across installation areas. PoE imposes real per-port power budgets, so the beta and V1 products have defined limits on chain length that we're transparent about — and the system is designed to fail safe: exceeding the power budget dims or disables modules rather than creating a hazard. Expanding that ceiling is the primary driver of our V2 and V3 hardware roadmap.`,
+				photoSrc: "images/projectPhotos/ModuLit_technical.png",
 			},
 			{
 				id: "product-design",
