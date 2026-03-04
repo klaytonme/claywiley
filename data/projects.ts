@@ -221,7 +221,7 @@ While still underway, the PCB design process covers full circuit schematic desig
 		id: "semi-automatic-typewriter",
 		title: "Semi-Automatic Typewriter",
 		subtitle: "IBM Selectric converted to a Linux-based hybrid word processor",
-		photo: "/projects/placeholder.jpg",
+		photo: "/images/projectPhotos/Typewriter.png",
 		tags: ["Linux", "Raspberry Pi", "Embedded C", "Mechatronics", "Optical Sensing", "Actuators", "Hardware Hacking"],
 		tabs: [
 			{
@@ -236,6 +236,7 @@ All this is done entirely through mechanical logic. That encoding layer is a nat
 In this project, I read the latch states with optical interrupt sensors, pair the machine with a Raspberry Pi running a custom single-application Linux distribution, and add solenoids and an LCD to close the loop: typed input is captured, processed, and can be sent directly back to the machine or transferred over USB.
 
 The result is a hybrid word processor that bridges retro hardware with a modern workflow. Type on the Selectric, edit on screen, print back to paper, or export to USB. Beyond the specific application, this project is an exercise in system analysis: reading a pre-existing electromechanical design, identifying its integration points, and extending it without destroying what makes it interesting.`,
+				photoSrc: "images/projectPhotos/Typewriter_front.png",
 			},
 			{
 				id: "sensing",
@@ -260,7 +261,7 @@ Of course, the direct-to-paper path is the more interesting one to me. This mean
 				links: [
 					{ label: "Source Code", url: "https://github.com/claytonwiley/selectric-linux", icon: "github" },
 					{ label: "Demo Video", url: "https://www.youtube.com/watch?v=placeholder", icon: "video" },
-					{ label: "Inspiration Video", url: "https://www.youtube.com/watch?v=placeholder", icon: "video" },
+					{ label: "Inspiration Video", url: "https://www.youtube.com/watch?v=1kXnsvYfaF4", icon: "video" },
 				]
 			}
 		]
