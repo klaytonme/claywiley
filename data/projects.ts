@@ -216,4 +216,53 @@ While still underway, the PCB design process covers full circuit schematic desig
 			}
 		]
 	},
+
+	{
+		id: "semi-automatic-typewriter",
+		title: "Semi-Automatic Typewriter",
+		subtitle: "IBM Selectric converted to a Linux-based hybrid word processor",
+		photo: "/projects/placeholder.jpg",
+		tags: ["Linux", "Raspberry Pi", "Embedded C", "Mechatronics", "Optical Sensing", "Actuators", "Hardware Hacking"],
+		tabs: [
+			{
+				id: "overview",
+				label: "Overview",
+				body: `The IBM Selectric II is already a computer, it just doesn't know it yet. Its type mechanism is driven by a mechanical binary encoder:
+- each keypress is encoded into 7 output latches
+- these latches tension axis strings to a precise position using mechanical tensioning logic
+- this selects the correct character by positioning the typeball which is then flung at the paper with enough force to type 
+
+All this is done entirely through mechanical logic. That encoding layer is a natural integration point for a modern embedded system.
+In this project, I read the latch states with optical interrupt sensors, pair the machine with a Raspberry Pi running a custom single-application Linux distribution, and add solenoids and an LCD to close the loop: typed input is captured, processed, and can be sent directly back to the machine or transferred over USB.
+
+The result is a hybrid word processor that bridges retro hardware with a modern workflow. Type on the Selectric, edit on screen, print back to paper, or export to USB. Beyond the specific application, this project is an exercise in system analysis: reading a pre-existing electromechanical design, identifying its integration points, and extending it without destroying what makes it interesting.`,
+			},
+			{
+				id: "sensing",
+				label: "Sensing & Decoding",
+				body: `The Selectric's character selection mechanism is entirely mechanical, the single electric motor just keeps the system running. Each keypress engages a specific combination of conditional string tensioners which physically route the typeball to the correct tilt and rotation position. The encoding is latched in hardware for the duration of the keystroke, which provides a clean window to read the binary state before it's reset.
+
+Optical interrupt sensors placed across the latch array capture each character event in real time. The sensing layer is event-driven: an interrupt fires on each keypress, the latch combination is sampled and decoded to a character, and the result is passed upstream to the Linux application layer. On the output side, the same latches are actuated directly by solenoids. The Raspberry Pi can drive the typeball to any character position autonomously, using the same mechanical system a typist's fingers would engage. Getting reliable reads and actuations required careful attention to debounce timing, solenoid dwell time, and sensor placement relative to latch travel.`,
+			},
+			{
+				id: "linux-integration",
+				label: "Linux Integration",
+				body: `The Raspberry Pi runs a stripped-down, single-application Linux distribution built specifically for this use case whcih means no desktop environment, no package manager overhead, just the word processor application and the drivers it needs. Boot time and resource usage were design constraints, not afterthoughts: the typewriter should feel immediate.
+
+The application layer handles typed input from the sensing pipeline, renders it to the LCD for editing, and manages two output paths: direct-to-paper via actuator-driven key triggering on the Selectric itself, and USB export for moving documents to a modern workflow. This allows a typist the tactile experience of the typewriter while still ending up with a digital document.
+
+Of course, the direct-to-paper path is the more interesting one to me. This means the Raspberry Pi can drive the typewriter autonomously, actuating the same mechanical system that a typist's fingers would.`,
+			},
+			{
+				id: "links",
+				label: "Links",
+				body: "",
+				links: [
+					{ label: "Source Code", url: "https://github.com/claytonwiley/selectric-linux", icon: "github" },
+					{ label: "Demo Video", url: "https://www.youtube.com/watch?v=placeholder", icon: "video" },
+					{ label: "Inspiration Video", url: "https://www.youtube.com/watch?v=placeholder", icon: "video" },
+				]
+			}
+		]
+	}
 ];
