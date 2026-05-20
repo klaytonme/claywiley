@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
 		return [
 			{
 				source: '/nodeeditor/:path*',
-				destination: 'https://nodeeditor.vercel.app/nodeeditor/:path*',
+				destination: 'https://nodeeditor.vercel.app/:path*',
 			},
 		];
 	},
